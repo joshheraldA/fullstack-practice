@@ -13,5 +13,4 @@ readFile(filePath, 'utf8', (err, result) => {
     console.log(result);
 }) 
 
-
 console.log("Starting last tasks")
