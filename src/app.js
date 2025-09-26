@@ -1,19 +1,21 @@
 const express = require('express')
 const app = express()
-const logger = require('./middleware/logger')
+const path = require('path')
 
 const PORT = 8080
+const pathFile = path.join(__dirname, '..', 'public')
 
-app.use(logger)
+app.use(express.static(pathFile))
 
 app.get('/', (req, res) => {
-    res.status(200).send('This is the homepage')
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
-app.get('/about', (req, res) => {
-    res.status(200).send('This is the about page')
+app.use((req, res) => {
+    res.status(404).send('Not found')
 })
 
-app.listen(PORT, () => {
-    console.log(`Listening to PORT  ${PORT}`)
+app.listen(PORT, (req, res) => {
+    console.log(`Listening to PORT ${PORT}`)
 })
+
