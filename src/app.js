@@ -1,22 +1,19 @@
-const express = require('express');
-const server = express();
+const express = require('express')
+const app = express()
+const logger = require('./middleware/logger')
 
-const PORT = 8080;
+const PORT = 8080
 
-server.get('/', (req, res) => {
-    res.status(200)
-    res.send('THIS is the hhomepage');
-});
+app.use(logger)
 
-server.get('/id', (req, res) => {
-    res.status(200)
-    res.send(`User ID: ${req.params.id}`);
-});
+app.get('/', (req, res) => {
+    res.status(200).send('This is the homepage')
+})
 
-server.use((req, res) => {
-    res.status(404).send("<h1>Page not found</h1>");
-});
+app.get('/about', (req, res) => {
+    res.status(200).send('This is the about page')
+})
 
-server.listen(PORT, () => {
-    console.log(`Listening to PORT ${PORT}`);
-});
+app.listen(PORT, () => {
+    console.log(`Listening to PORT  ${PORT}`)
+})
