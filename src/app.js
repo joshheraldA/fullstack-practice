@@ -1,41 +1,32 @@
 const express = require('express')
-const { join  } = require('path')
+const app = express()
 
 const { people } = require('./db')
 
-const app = express()
-
-
-const PORT = 8080;
-
-app.use(express.urlencoded({extended: false}))
-app.use(express.static(join(__dirname, '..', 'public')))
 app.use(express.json())
 
-app.post('/login', (req, res) => {
-    const { name } = req.body
-    if(name) {
-        res.status(200).send(`HELLO ${name}`)
-        
-    }
-    res.status(401).send('Please provide credentials')
+const PORT = 8080
+
+app.get('/', (req, res) => {
+    res.status(200).json({success: true, data: people})
 })
 
-app.get('/api/people', (req, res) => {
-    res.send({success: true, data: people})
-}) 
+// GET method when api/insomina/people
+app.get('/api/insomnia/people', (req, res) => {
+    res.status(200).json({success: true, data: people})
+})
 
-app.post('/api/people', (req, res) => {
+
+// POST method when /api/insomnia/people
+app.post('/api/insomnia/people', (req, res) => {
     const { name } = req.body
+
     if(!name) {
-        res.status(401).send({success: false, msg: 'please provide name'})
+        return res.status(401).json({success: false, data: 'No input allowed'})
     }
-
-    res.status(201).json({success: true, person: name})
+    res.status(200).json({success: true, data: name})
 })
-
-
 
 app.listen(PORT, () => {
-    console.log(`Listening in PORT ${PORT}`)
+    console.log(`Listening to PORT ${PORT}`)
 })
