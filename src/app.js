@@ -22,6 +22,7 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/api/people', (req, res) => {
+    console.log("HELLO WOLRD")
     res.send({success: true, data: people})
 }) 
 
