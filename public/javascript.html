@@ -55,6 +55,8 @@
           })
           result.innerHTML = people.join('')
         } catch (error) {
+          console.log(error);
+          
           result.innerHTML = `<div class="alert alert-danger">Can't Fetch Data</div>`
         }
       }
