@@ -45,19 +45,26 @@ app.put('/api/insomnia/:id', (req, res) => {
     const { id } = req.params
     const { name } = req.body
 
-    const newPerson = people.find((person) => person.id === Number(id))
-    if(!newPerson) {
+    const targetPerson = people.find((person) => person.id === Number(id))
+    if(!targetPerson) {
         return res
         .status(404)
         .json({success: false, data: `${id} could not be found`})
     }
-
-    const changeName = people.map((person) => {
-        if(person.id === Number(id)) {
-            person.name = name
-        }
-    })
+    targetPerson.name = name
     res.status(200).json({success: true, data: people})
+})
+
+app.delete('/api/insomnia/:id', (req, res) => {
+    // access the id directly instead of creating a variable
+    const findPerson = people.find((person) => person.id === Number(req.params.id))
+    if(!findPerson) {
+        return res
+        .status(404)
+        .json({success: false, data: `Cannot find ${req.params.id}`})
+    }
+    const filteredData = people.filter((person) => person.id > Number(req.params.id))
+    return res.status(200).json({success: true, data: filteredData})
 })
 
 app.listen(PORT, () => {
